@@ -22,4 +22,4 @@ deploy:
   provider: script
   skip_cleanup: true
   script:
-  - curl -T allocator-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -ucdandrey:$BINTRAY_API_KEY "https://api.bintray.com/content/cda/otus-cpp/allocator/$TRAVIS_BUILD_NUMBER/allocator-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+  - curl -T prj_allocator-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -ucdandrey:$BINTRAY_API_KEY "https://api.bintray.com/content/cda/otus-cpp/prj_allocator/$TRAVIS_BUILD_NUMBER/prj_allocator-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
