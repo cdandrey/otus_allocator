@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#define UNUSED(x) (void *)(x)
+#define UNUSED(x) (void)(x)
 
 namespace alc
 {
@@ -28,7 +28,7 @@ namespace alc
         ~buffering_allocator()
         {
             for (const auto &p : buff)
-                std::free(p);
+                free(p);
         }
         
         template<typename U>
@@ -38,7 +38,7 @@ namespace alc
         {
             if (buff.empty())
             {
-                auto p = std::malloc(n * sizeof(T));
+                auto p = malloc(n * sizeof(T));
 
                 if (!p)
                     throw std::bad_alloc();
