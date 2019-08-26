@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <cstdlib>
 #include <vector>
 
 #define UNUSED(x) (void)(x)
@@ -28,7 +29,7 @@ namespace alc
         ~buffering_allocator()
         {
             for (const auto &p : buff)
-                free(p);
+                std::free(p);
         }
         
         template<typename U>
@@ -38,7 +39,7 @@ namespace alc
         {
             if (buff.empty())
             {
-                auto p = malloc(n * sizeof(T));
+                auto p = std::malloc(n * sizeof(T));
 
                 if (!p)
                     throw std::bad_alloc();
