@@ -144,7 +144,7 @@ namespace ffl
 
                     bool operator!=(const const_iterator& other ) const { return other._p != _p; }
                     const_reference operator*() const { return *_p; }
-                    const_pointer operator->() const { return _p; }
+                    const_pointer operator->() const { return const_cast<const_pointer>(_p); }
 
             };
 
@@ -222,12 +222,12 @@ namespace ffl
 
         private:
 
+            allocator_type _alloc;
+            size_type _size;
+            size_type _capacity;
             pointer _data;
             size_type _head;
             size_type _tail;
-            size_type _size;
-            size_type _capacity;
-            allocator_type _alloc;
 
             static const size_type _CAPACITY_INCREASE = 2;
 
