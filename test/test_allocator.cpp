@@ -1,6 +1,6 @@
 
-#include "../../allocator/lib/allocator.h"
-#include "../../allocator/lib/fifo.h"
+#include "../lib/allocator.h"
+#include "../lib/fifo.h"
 #include <gtest/gtest.h>
 #include <map>
 #include <deque>
