@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.2)
 
 set(THIS liballoc)
-set(HEADERS allocator.h factorial.h)
+set(HEADERS allocator.h factorial.h fifo.h)
 set(SOURCES factorial.cpp)
 
 if (DEFINED ENV{TRAVIS_BUILD_NUMBER})
@@ -18,7 +18,7 @@ add_library(${THIS} ${HEADERS} ${SOURCES})
 set_target_properties(
         ${THIS}
         PROPERTIES
-        CXX_STANDARD 14
+        CXX_STANDARD 17
         CXX_STANDARD_REQUIRED ON
 )
 

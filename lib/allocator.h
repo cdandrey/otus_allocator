@@ -4,8 +4,6 @@
 #include <cstdlib>
 #include <vector>
 
-#define UNUSED(x) (void)(x)
-
 namespace alc
 {
     template <typename T>
@@ -35,7 +33,7 @@ namespace alc
         template<typename U>
         buffering_allocator(const buffering_allocator<U>&) {}
 
-        T *allocate(std::size_t n)
+        pointer allocate(size_type n)
         {
             if (buff.empty())
             {
@@ -44,7 +42,7 @@ namespace alc
                 if (!p)
                     throw std::bad_alloc();
 
-                return reinterpret_cast<T *>(p);
+                return reinterpret_cast<pointer>(p);
             }
             else
             {
@@ -55,10 +53,10 @@ namespace alc
             }
         }
 
-        void deallocate(T *p,std::size_t n)
+        void deallocate(pointer p,std::size_t n)
         {
-            UNUSED(n);
-            buff.emplace_back(p);
+            for (size_type i = 0; i < n; ++i)
+                buff.emplace_back(p + i);
         }
 
         template<typename U, typename ...Args>
@@ -67,13 +65,62 @@ namespace alc
             new(p) U(std::forward<Args>(args)...);
         }
 
-        void destroy(T *p)
+        void destroy(pointer p)
         {
-            p->~T();
+            p->~value_type();
         }
 
         private:
 
-            std::vector<T *> buff;
+            std::vector<pointer> buff;
+    };
+
+    template <typename T>
+    struct my_allocator
+    {
+        using value_type = T;
+        using pointer = T*;
+        using const_pointer = const T*;
+        using reference = T&;
+        using const_reference = const T&;
+        using size_type = std::size_t;
+
+        template <typename U>
+        struct rebind
+        {
+            using other = my_allocator<U>;
+        };
+
+        my_allocator() = default;
+        ~my_allocator() = default;
+        
+        template<typename U>
+        my_allocator(const my_allocator<U>&) {}
+
+        pointer allocate(size_type n)
+        {
+            auto p = std::malloc(n * sizeof(T));
+
+            if (!p)
+                throw std::bad_alloc();
+
+            return reinterpret_cast<pointer>(p);
+        }
+
+        void deallocate(pointer p,[[maybe_unused]] std::size_t n)
+        {
+            std::free(p);
+        }
+
+        template<typename U, typename ...Args>
+        void construct(U *p, Args &&...args)
+        {
+            new(p) U(std::forward<Args>(args)...);
+        }
+
+        void destroy(pointer p)
+        {
+            p->~value_type();
+        }
     };
 }
