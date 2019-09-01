@@ -22,7 +22,7 @@ TEST(allocator_test,test_buffering_alloc)
     std::discrete_distribution<unsigned> dis_op = {60,20,20};
     std::uniform_int_distribution<unsigned> dis_key(0,C_SIZE_MAP - 1);
 
-    for (int i = 0; i < C_NUM_TEST; ++i)
+    for (unsigned i = 0; i < C_NUM_TEST; ++i)
     {
         op = dis_op(gen);
         key = dis_key(gen);
