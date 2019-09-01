@@ -144,7 +144,7 @@ namespace ffl
 
                     bool operator!=(const const_iterator& other ) const { return other._p != _p; }
                     const_reference operator*() const { return *_p; }
-                    const_pointer operator->() const { return const_cast<const_pointer>(_p); }
+                    const_pointer operator->() { return _p; }
 
             };
 
