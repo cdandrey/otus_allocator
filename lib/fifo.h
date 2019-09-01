@@ -97,13 +97,13 @@ namespace ffl
                 private:
                     
                     pointer _p;
-                    const_pointer _begin;
-                    const_pointer _end;
+                    pointer _begin;
+                    pointer _end;
 
                     iterator(pointer p,pointer begin, pointer end) 
                         : _p(p)
-                        , _begin(const_cast<const_pointer>(begin))
-                        , _end(const_cast<const_pointer>(end))
+                        , _begin(begin)
+                        , _end(end)
                     {}
 
                 public:
@@ -116,7 +116,7 @@ namespace ffl
                     
                     pointer& operator++() 
                     { 
-                        _p = ( _p == _end ) ? const_cast<pointer>(_begin) : ++_p;
+                        _p = ( _p == _end ) ? _begin : ++_p;
                         return _p; 
                     }
 
