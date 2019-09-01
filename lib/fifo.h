@@ -116,7 +116,11 @@ namespace ffl
                     
                     pointer& operator++() 
                     { 
-                        _p = ( _p == _end ) ? _begin : ++_p;
+                        if (_p == _end)
+                            _p = _begin;
+                        else
+                            ++_p;
+
                         return _p; 
                     }
 
