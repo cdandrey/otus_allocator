@@ -1,6 +1,8 @@
 
 #pragma once
 
+#define UNUSED(x) (void)(x)
+
 #include <cstdlib>
 #include <vector>
 
@@ -53,10 +55,12 @@ namespace alc
             }
         }
 
-        void deallocate(pointer p,std::size_t n)
+        void deallocate(pointer p,size_type n)
         {
             for (size_type i = 0; i < n; ++i)
                 buff.emplace_back(p + i);
+
+            UNUSED(n);
         }
 
         template<typename U, typename ...Args>
@@ -107,9 +111,10 @@ namespace alc
             return reinterpret_cast<pointer>(p);
         }
 
-        void deallocate(pointer p,[[maybe_unused]] std::size_t n)
+        void deallocate(pointer p,size_type n)
         {
             std::free(p);
+            UNUSED(n);
         }
 
         template<typename U, typename ...Args>
