@@ -40,9 +40,9 @@ namespace alc
 
         pointer allocate(size_type n)
         {
-            if (_buff.empty())
+            if (_buff.size() < n)
             {
-                auto n_alloc = (n > BUFF_SIZE) ? n : BUFF_SIZE;
+                auto n_alloc = (n > BUFF_SIZE - _buff.size()) ? n : BUFF_SIZE - _buff.size();
 
                 auto p = std::malloc(n_alloc * sizeof(T));
 
@@ -51,18 +51,16 @@ namespace alc
 
 				auto ptype = reinterpret_cast<pointer>(p);
 
-                for (size_type i = 0; i < n_alloc - n; ++i)
+                for (size_type i = 0; i < n_alloc; ++i)
                     _buff.push_back(ptype + i);
-
-                return (ptype + (n_alloc - n));
             }
-            else
-            {
-                pointer p = _buff.at(_buff.size() - 1);
-                _buff.pop_back();
 
-                return p;
-            }
+            pointer p = _buff.at(_buff.size() - n);
+
+			for (size_type i = 0; i < n; ++i)
+				_buff.pop_back();
+
+            return p;
         }
 
         void deallocate(pointer p,size_type n)
