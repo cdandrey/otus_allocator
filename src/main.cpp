@@ -1,6 +1,6 @@
-#include "../lib/allocator.h"
-#include "../lib/factorial.h"
-#include "../lib/fifo.h"
+#include "allocator.h"
+#include "factorial.h"
+#include "fifo.h"
 #include <map>
 #include <iostream>
 

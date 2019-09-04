@@ -15,7 +15,7 @@ namespace fcl
         static const int value = 1;
     };
 
-    int fact(int x);
+    int fact(unsigned x);
 
 }
 

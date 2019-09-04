@@ -8,7 +8,7 @@
 
 namespace alc
 {
-    template <typename T>
+    template <typename T,unsigned BUFF_SIZE = 5>
     struct buffering_allocator
     {
         using value_type = T;
@@ -24,11 +24,14 @@ namespace alc
             using other = buffering_allocator<U>;
         };
 
-        buffering_allocator() = default;
+        buffering_allocator()
+        {
+            _buff.reserve(BUFF_SIZE);
+        };
 
         ~buffering_allocator()
         {
-            for (const auto &p : buff)
+            for (const auto &p : _buff)
                 std::free(p);
         }
         
@@ -37,19 +40,26 @@ namespace alc
 
         pointer allocate(size_type n)
         {
-            if (buff.empty())
+            if (_buff.empty())
             {
-                auto p = std::malloc(n * sizeof(T));
+                auto n_alloc = (n > BUFF_SIZE) ? n : BUFF_SIZE;
+
+                auto p = std::malloc(n_alloc * sizeof(T));
 
                 if (!p)
                     throw std::bad_alloc();
 
-                return reinterpret_cast<pointer>(p);
+				auto ptype = reinterpret_cast<pointer>(p);
+
+                for (size_type i = 0; i < n_alloc - n; ++i)
+                    _buff.push_back(ptype + i);
+
+                return (ptype + (n_alloc - n));
             }
             else
             {
-                auto p = buff.at(buff.size() - 1);
-                buff.pop_back();
+                pointer p = _buff.at(_buff.size() - 1);
+                _buff.pop_back();
 
                 return p;
             }
@@ -58,9 +68,7 @@ namespace alc
         void deallocate(pointer p,size_type n)
         {
             for (size_type i = 0; i < n; ++i)
-                buff.emplace_back(p + i);
-
-            UNUSED(n);
+                _buff.emplace_back(p + i);
         }
 
         template<typename U, typename ...Args>
@@ -76,7 +84,7 @@ namespace alc
 
         private:
 
-            std::vector<pointer> buff;
+            std::vector<pointer> _buff;
     };
 
     template <typename T>

@@ -1,6 +1,6 @@
 
-#include "../lib/allocator.h"
-#include "../lib/fifo.h"
+#include "allocator.h"
+#include "fifo.h"
 #include <gtest/gtest.h>
 #include <map>
 #include <deque>
@@ -94,9 +94,9 @@ TEST(allocator_test,test_fifo)
                 EXPECT_EQ(deq.size(),ff.size());
                 break;
 
-            // pop_peek
+            // front
             case 2:
-                EXPECT_EQ(deq.front(),ff.pop_peek());
+                EXPECT_EQ(deq.front(),ff.front());
                 EXPECT_EQ(deq.size(),ff.size());
                 break;
         }
@@ -147,9 +147,9 @@ TEST(allocator_test,test_fifo_my_alloc)
                 EXPECT_EQ(deq.size(),ff.size());
                 break;
 
-            // pop_peek
+            // front
             case 2:
-                EXPECT_EQ(deq.front(),ff.pop_peek());
+                EXPECT_EQ(deq.front(),ff.front());
                 EXPECT_EQ(deq.size(),ff.size());
                 break;
         }

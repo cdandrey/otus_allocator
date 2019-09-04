@@ -3,7 +3,7 @@
 
 namespace ffl
 {
-    template<typename T = int,class A = std::allocator<T> >
+    template<typename T = int,class A = std::allocator<T>>
     class fifo
     {
 
@@ -182,10 +182,10 @@ namespace ffl
                 return tmp;
             }
 
-            reference pop_peek() { return *cbegin(); }
+            reference front() { return *cbegin(); }
 
             // modification
-            void push(value_type value)
+            void push(const_reference value)
             {
                 if (size() + 1 == capacity())
                 {
