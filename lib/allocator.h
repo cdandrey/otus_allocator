@@ -42,15 +42,15 @@ namespace alc
             {
                 if (_buff.empty())
                 {
+                    auto p = std::malloc(BUFF_SIZE*sizeof(T));
+
+                    if (!p)
+                        throw std::bad_alloc();
+
+                    pointer ptype = reinterpret_cast<pointer>(p);
+
                     for (size_type i = 0; i < BUFF_SIZE; ++i)
-                    {
-                        auto p = std::malloc(sizeof(T));
-
-                        if (!p)
-                            throw std::bad_alloc();
-
-                        _buff.emplace_back(reinterpret_cast<pointer>(p));
-                    }
+                        _buff.push_back(ptype + i);
                 }
 
                 pointer p = _buff.at(_buff.size() - 1);
@@ -68,7 +68,6 @@ namespace alc
 
                 return reinterpret_cast<pointer>(p);
             }
-            
         }
 
         void deallocate(pointer p,size_type n)
