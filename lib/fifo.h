@@ -10,7 +10,7 @@ namespace ffl
         public:
 
             using value_type = T;
-            using reference = value_type&;
+            using reference = value_type &;
             using const_reference = const reference;
             using pointer = value_type*;
             using const_pointer = const pointer;
@@ -185,7 +185,7 @@ namespace ffl
             reference front() { return *cbegin(); }
 
             // modification
-            void push(const_reference value)
+            void push(const value_type & value)
             {
                 if (size() + 1 == capacity())
                 {

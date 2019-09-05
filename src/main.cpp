@@ -26,7 +26,7 @@ int main(int,char**)
 
     // my containers with standart and may allocator
     ffl::fifo<int> fifo_std;
-    ffl::fifo<int,alc::my_allocator<int>> fifo_alc;
+    ffl::fifo<int,alc::buffering_allocator<int>> fifo_alc;
 
     for (int i = 0; i < N; ++i)
         fifo_std.push(i);

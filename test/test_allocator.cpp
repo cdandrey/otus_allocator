@@ -1,6 +1,6 @@
 
-#include "allocator.h"
-#include "fifo.h"
+#include "../lib/allocator.h"
+#include "../lib/fifo.h"
 #include <gtest/gtest.h>
 #include <map>
 #include <deque>
@@ -15,7 +15,7 @@ TEST(allocator_test,test_buffering_alloc)
     unsigned key;
 
     std::map<int,int> map_std;
-    std::map<int,int,std::less<int>,alc::buffering_allocator<std::pair<int,int>> > map_alc;
+    std::map<int,int,std::less<int>,alc::buffering_allocator<std::pair<int,int>,C_SIZE_MAP> > map_alc;
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -119,7 +119,7 @@ TEST(allocator_test,test_fifo_my_alloc)
     unsigned value;
 
     std::deque<int> deq;
-    ffl::fifo<int,alc::my_allocator<int>> ff;
+    ffl::fifo<int,alc::buffering_allocator<int>> ff;
 
     std::random_device rd;
     std::mt19937 gen(rd());
