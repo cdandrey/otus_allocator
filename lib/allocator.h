@@ -29,7 +29,7 @@ namespace alc
 
         ~buffering_allocator()
         {
-            for (const auto &p : _buff)
+            for (const auto &p : _head)
                 std::free(p);
         }
         
@@ -49,8 +49,10 @@ namespace alc
 
                     pointer ptype = reinterpret_cast<pointer>(p);
 
-                    for (size_type i = 0; i < BUFF_SIZE; ++i)
+                    for (size_type i = 1; i < BUFF_SIZE; ++i)
                         _buff.push_back(ptype + i);
+
+                    _head.push_back(ptype);
                 }
 
                 pointer p = _buff.at(_buff.size() - 1);
@@ -66,21 +68,16 @@ namespace alc
                 if (!p)
                     throw std::bad_alloc();
 
-                return reinterpret_cast<pointer>(p);
+                _head.push_back(reinterpret_cast<pointer>(p));
+
+                return _head.at(_head.size() - 1);
             }
         }
 
         void deallocate(pointer p,size_type n)
         {
             if (n == 1)
-            {
-                _buff.emplace_back(p);
-            }
-            else
-            {
-                std::free(p);
-            }
-            
+                _buff.push_back(p);
         }
 
         template<typename U, typename ...Args>
@@ -97,5 +94,6 @@ namespace alc
         private:
 
             std::vector<pointer> _buff;
+            std::vector<pointer> _head;
     };
 }
