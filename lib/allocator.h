@@ -56,8 +56,8 @@ namespace alc
                 }
 
                 pointer p = _buff.at(_buff.size() - 1);
-
-				_buff.pop_back();
+                
+                _buff.pop_back();
 
                 return p;
             }
