@@ -15,7 +15,7 @@ TEST(allocator_test,test_buffering_alloc)
     unsigned key;
 
     std::map<int,int> map_std;
-    std::map<int,int,std::less<int>,alc::buffering_allocator<std::pair<int,int>,C_SIZE_MAP> > map_alc;
+    std::map<int,int,std::less<int>,alc::buffering_allocator<std::pair<int,int>,C_SIZE_MAP + 1> > map_alc;
 
     std::random_device rd;
     std::mt19937 gen(rd());
